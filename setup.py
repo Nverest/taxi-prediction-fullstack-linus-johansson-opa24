@@ -10,7 +10,7 @@ setup(
     description="this package contains taxipred app",
     author="Linus Johansson",
     author_email="author@mail.se",
-    install_requires=["streamlit", "pandas", "fastapi", "uvicorn"],
+    install_requires=["streamlit", "pandas", "fastapi", "scikit-learn", "uvicorn"],
     package_dir={"": "src"},
     package_data={"taxipred": ["data/*.csv"]},
     packages=find_packages(),
