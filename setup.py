@@ -9,7 +9,7 @@ setup(
     version="0.0.1",
     description="this package contains taxipred app",
     author="Linus Johansson",
-    author_email="author@mail.se",
+    author_email="linusjohaan@gmail.com",
     install_requires=["streamlit", "pandas", "fastapi", "scikit-learn", "uvicorn"],
     package_dir={"": "src"},
     package_data={"taxipred": ["data/*.csv"]},
