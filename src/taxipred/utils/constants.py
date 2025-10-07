@@ -1,7 +1,10 @@
 from importlib.resources import files
 
 TAXI_CSV_PATH = files("taxipred").joinpath("data/taxi_trip_pricing.csv")
+from pathlib import Path
 
-# DATA_PATH = Path(__file__).parents[1] / "data"
+MODEL_PATH = (
+    Path(__file__).resolve().parent.parent / "models" / "final_model_full.joblib"
+)
 
-print (TAXI_CSV_PATH)
+CLEANED_TAXI_DATA = files("taxipred").joinpath("processed_data/data_cleaned.csv")
