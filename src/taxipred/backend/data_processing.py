@@ -1,21 +1,17 @@
 import pandas as pd
 import numpy as np
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from sklearn.linear_model import LinearRegression, Ridge
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder
 import joblib
-import warnings
 from pathlib import Path
-warnings.filterwarnings('ignore')
 
 def load_and_clean_data(filepath):
-    """Load data and perform initial cleaning"""
-    print("Loading data...")
+    #Load data and perform initial cleaning
+    print("Loading data")
     df = pd.read_csv(filepath)
     
     print(f"Initial shape: {df.shape}")
@@ -58,7 +54,7 @@ def load_and_clean_data(filepath):
 
 
 def prepare_features(df):
-    """Prepare features for modeling with categorical encoding"""
+    #Prepare features for modeling with categorical encoding
     
     df_model = df.copy()
     
@@ -84,8 +80,6 @@ def prepare_features(df):
     
     feature_cols = numeric_cols + categorical_cols
     
-    print(f"\nTotal features ({len(feature_cols)}): {feature_cols}")
-    
     X = df_encoded[feature_cols]
     y = df_encoded['Trip_Price']
     
@@ -101,7 +95,7 @@ def prepare_features(df):
 
 
 def train_and_evaluate_models(X, y):
-    """Train multiple models and compare performance"""
+#Train multiple models and compare performance
     
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=42
@@ -130,10 +124,7 @@ def train_and_evaluate_models(X, y):
     }
     
     results = {}
-    
-    print("\n" + "="*70)
     print("MODEL EVALUATION")
-    print("="*70)
     
     for name, model in models.items():
         print(f"\nTraining {name}...")
@@ -177,17 +168,15 @@ def train_and_evaluate_models(X, y):
         print(f"  Train MAPE: {train_mape:.2f}% | Test MAPE: {test_mape:.2f}%")
     
     best_model_name = min(results, key=lambda x: results[x]['test_mae'])
-    print(f"\n{'='*70}")
     print(f"BEST MODEL: {best_model_name}")
     print(f"  Test MAE: ${results[best_model_name]['test_mae']:.2f}")
     print(f"  Test MAPE: {results[best_model_name]['test_mape']:.2f}%")
-    print(f"{'='*70}")
     
     return results, best_model_name
 
 
 def train_final_model(X, y, model_type='Random Forest'):
-    """Train final model on all data"""
+    #Train final model on all data
     
     print(f"\nTraining final {model_type} on all data...")
     
@@ -233,7 +222,7 @@ def train_final_model(X, y, model_type='Random Forest'):
 
 
 def save_model(pipeline, feature_cols, label_encoders, models_dir, model_name='taxi_price_model'):
-    """Save the trained model and metadata"""
+    #Save the trained model and metadata
     
     models_dir = Path(models_dir)
     models_dir.mkdir(parents=True, exist_ok=True)
@@ -265,15 +254,10 @@ def save_model(pipeline, feature_cols, label_encoders, models_dir, model_name='t
 
 
 if __name__ == "__main__":
-    print("="*70)
-    print("TAXI PRICE PREDICTION MODEL TRAINING")
-    print("="*70)
     
     current_file = Path(__file__).resolve()
     print(f"\nCurrent script: {current_file}")
-    
-    # If script is in src/taxipred/backend/data_processing.py
-    # Go up 1 level to get to src/taxipred/
+
     taxipred_root = current_file.parent.parent
     
     print(f"Taxipred root: {taxipred_root}")
@@ -307,46 +291,22 @@ if __name__ == "__main__":
     else:
         print(f"\nData file found")
     
-    print("\n" + "="*70)
-    print("STEP 1: LOADING AND CLEANING DATA")
-    print("="*70)
     df_clean = load_and_clean_data(str(data_path))
     
     df_clean.to_csv(str(cleaned_data_path), index=False)
     print(f"\nCleaned data saved to: {cleaned_data_path}")
     
-    print("\n" + "="*70)
-    print("STEP 2: PREPARING FEATURES AND ENCODING")
-    print("="*70)
     X, y, feature_cols, label_encoders = prepare_features(df_clean)
-    
-    print("\n" + "="*70)
-    print("STEP 3: TRAINING AND EVALUATING MODELS")
-    print("="*70)
+
     results, best_model_name = train_and_evaluate_models(X, y)
     
-    print("\n" + "="*70)
-    print("STEP 4: TRAINING FINAL MODEL")
-    print("="*70)
     final_pipeline = train_final_model(X, y, model_type=best_model_name)
     
-    print("\n" + "="*70)
-    print("STEP 5: SAVING MODEL")
-    print("="*70)
     model_path = save_model(final_pipeline, feature_cols, label_encoders, models_dir)
     
-    print("\n" + "="*70)
-    print("TRAINING COMPLETE")
-    print("="*70)
     print(f"\nModel files created:")
     print(f"  1. {models_dir / 'taxi_price_model.pkl'}")
     print(f"  2. {models_dir / 'feature_names.pkl'}")
     print(f"  3. {models_dir / 'label_encoders.pkl'}")
     print(f"  4. {models_dir / 'model_metadata.pkl'}")
     print(f"\nData files:")
-    print(f"  - Original: {data_path}")
-    print(f"  - Cleaned: {cleaned_data_path}")
-    print(f"\nBest Model: {best_model_name}")
-    print(f"Total Features: {len(feature_cols)}")
-    print(f"Categorical Features: {list(label_encoders.keys())}")
-    print("\n" + "="*70)
