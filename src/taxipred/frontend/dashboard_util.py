@@ -6,6 +6,8 @@ import pathlib
 import base64
 import polyline
 import os
+
+load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 # -------------- Background --------------
