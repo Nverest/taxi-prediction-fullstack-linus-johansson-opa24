@@ -47,32 +47,48 @@ This application predicts taxi trip prices based on various factors such as dist
 ## Project Structure
 
 ```
-taxi-prediction-fullstack/
-├── src/
-│   └── taxipred/
-│       ├── backend/
-│       │   ├── data_processing.py    # ML training pipeline
-│       │   └── api.py           # FastAPI application
-│       ├── frontend/
-│       │   ├── dashboard.py          # Streamlit app
-│       │   └── dashboard_util.py     # Helper functions
-│       ├── data/
-│       │   └── taxi_trip_pricing.csv # Original dataset
-│       ├── processed_data/
-│       │   └── data_cleaned.csv      # Cleaned dataset
-│       ├── models/
-│       │   ├── taxi_price_model.pkl  # Trained model
-│       │   ├── feature_names.pkl     # Feature list
-│       │   ├── label_encoders.pkl    # Categorical encoders
-│       │   └── model_metadata.pkl    # Model info
-│       └── utils/
-│           └── constants.py          # Path configurations
-├── visual_asset/
-│   └── taxi.png                      # Background image
-├── .env                              # Environment variables
-├── .gitignore
-├── README.md
-└── setup.py
+taxi-prediction-fullstack-linus-johansson-opa24
+├─ Assignment
+│  └─ lab_taxipred.pdf
+├─ explorations
+│  └─ 01_eda.ipynb
+├─ Initiate.ch
+├─ README.md
+├─ requirements.txt
+├─ setup.py
+└─ src
+   └─ taxipred
+      ├─ backend
+      │  ├─ api.py
+      │  ├─ data_processing.py
+      ├─ data
+      │  └─ taxi_trip_pricing.csv
+      ├─ frontend
+      │  ├─ dashboard.py
+      │  ├─ dashboard_util.py
+      │  ├─ visual_asset
+      │  │  └─ taxi.png
+      ├─ models
+      │  ├─ feature_names.pkl
+      │  ├─ final_model_full.joblib
+      │  ├─ label_encoders.pkl
+      │  ├─ model_metadata.pkl
+      │  └─ taxi_price_model.pkl
+      ├─ processed_data
+      │  ├─ data_cleaned.csv
+      │  └─ model_comparison.csv
+      ├─ utils
+      │  ├─ constants.py
+      │  ├─ helpers.py
+      ├─ Visualization
+      │  ├─ categorical_analysis.png
+      │  ├─ correlation_matrix.png
+      │  ├─ Distribution.png
+      │  ├─ numerical_features_distribution.png
+      │  ├─ scatter_Dist_price.png
+      │  └─ trip_price_distribution.png
+
+
 ```
 
 ## Machine Learning Pipeline
@@ -214,7 +230,7 @@ uv pip install -r requirements.txt
 
 ## Run current version
 
-Will initiate API and streamlit
+Will initiate PI and streamlit
 
 ```
 ./initiate.ch
